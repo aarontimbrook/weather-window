@@ -1,0 +1,8 @@
+{
+    "/**": {
+        "target": "https://forecast.weather.gov",
+        "secure": true,
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}
