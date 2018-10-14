@@ -1,5 +1,6 @@
 // http://cloudmark.github.io/Json-Mapping/
 // https://www.npmjs.com/package/reflect-metadata
+
 import * as rm from 'reflect-metadata';
 
 const jsonMetadataKey = 'jsonProperty';
@@ -23,14 +24,6 @@ export function JsonProperty<T>(metadata?: IJsonMetaData<T> | string): any {
         });
     }
 }
-
-// export function getClazz(target: any, propertyKey: string): any {
-//     return Reflect.getMetadata('design:type', target, propertyKey);
-// }
-
-// export function getJsonProperty<T>(target: any, propertyKey: string): IJsonMetaData<T> {
-//     return Reflect.getMetadata(jsonMetadataKey, target, propertyKey);
-// }
 
 export class MapUtils {
     static isPrimitive(obj) {

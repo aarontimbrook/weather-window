@@ -5,8 +5,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { ForecastModule } from './features/forecast/forecast.module';
-import { ForecastService } from './features/forecast/forecast.service';
 import { MaterialModule } from './shared/material.module';
+import { XmlParseService } from './shared/xml-parse.service';
 
 @NgModule({
     declarations: [
@@ -20,7 +20,7 @@ import { MaterialModule } from './shared/material.module';
         MaterialModule
     ],
     providers: [
-        ForecastService
+        XmlParseService
     ],
     bootstrap: [
         AppComponent

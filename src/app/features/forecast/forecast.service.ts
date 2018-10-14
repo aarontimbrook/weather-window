@@ -1,30 +1,23 @@
-import {
-    HttpClient,
-    HttpErrorResponse
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import {
-    Injectable
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import {
-    Observable,
-    throwError
-} from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
-import {
-    catchError
-} from 'rxjs/operators';
-// service
+import { catchError } from 'rxjs/operators';
+import { ForecastModule } from './forecast.module';
+
 // https://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php
 // http://forecast.weather.gov/MapClick.php?lat=40.1502&lon=-79.5423&FcstType=digitalDWML
-@Injectable()
-export class ForecastService {
 
+@Injectable({
+    providedIn: ForecastModule
+})
+export class ForecastService {
     constructor(private _httpClient: HttpClient) {}
 
-    getWeatherData(): Observable<string> {
-        const url = `https://forecast.weather.gov/MapClick.php?lat=40.1502&lon=-79.5423&FcstType=digitalDWML`;
+    getWeatherData(lat: number, lon: number): Observable<string> {
+        const url = `https://forecast.weather.gov/MapClick.php?lat=${lat}&lon=${lon}&FcstType=digitalDWML`;
 
         return this._httpClient
             .get(url, {
@@ -40,10 +33,7 @@ export class ForecastService {
         } else {
             // The backend returned an unsuccessful response code.
             // The response body may contain clues as to what went wrong,
-            console.error(
-                `Backend returned code ${error.status}, ` +
-                `body was: ${error.error}`
-            );
+            console.error(`Backend returned code ${error.status}, ` + `body was: ${error.error}`);
         }
         // return an observable with a user-facing error message
         return throwError('Something bad happened; please try again later.');
