@@ -3,7 +3,7 @@ import { WdirVal } from './wind';
 
 export class Direction {
     name: string;
-    Items: Object[];
+    // Items: Object[];
     type: DirectionType;
     units: string;
     timelayout: string;
@@ -11,6 +11,8 @@ export class Direction {
     conversiontable: string;
 
     constructor() {
+        this.name = '';
+        this.type = DirectionType.wind;
         this.units = 'degrees true';
     }
 }

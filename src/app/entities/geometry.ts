@@ -1,4 +1,5 @@
 import { SummarizationType, RadiusUnits } from './enums';
+import { BaseEntity } from './base-entity';
 
 export class Circle {
     point: Point;
@@ -7,11 +8,16 @@ export class Circle {
     summarizationSpecified: boolean;
 }
 
-export class Point {
+export class Point extends BaseEntity {
     latitude: number;
     longitude: number;
-    summarization: SummarizationType;
-    summarizationSpecified: boolean;
+
+    constructor() {
+        super();
+
+        this.latitude = -1;
+        this.longitude = -1;
+    }
 }
 
 export class Rectangle {

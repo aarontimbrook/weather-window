@@ -15,12 +15,6 @@ import {
 import {
     catchError
 } from 'rxjs/operators';
-// notes
-// http://www.nws.noaa.gov/forecasts/xml/
-// https://stackoverflow.com/questions/47159604/retrieve-xml-from-httpclient-on-angular-5
-// https://www.nativescript.org/blog/handle-xml-response-from-soap-service-in-nativescript
-// https://developer.telerik.com/featured/working-xml-data-nativescript-angular-2/
-
 // service
 // https://graphical.weather.gov/xml/SOAP_server/ndfdXMLserver.php
 // http://forecast.weather.gov/MapClick.php?lat=40.1502&lon=-79.5423&FcstType=digitalDWML
@@ -29,7 +23,7 @@ export class ForecastService {
 
     constructor(private _httpClient: HttpClient) {}
 
-    getWeatherData(): Observable < string > {
+    getWeatherData(): Observable<string> {
         const url = `https://forecast.weather.gov/MapClick.php?lat=40.1502&lon=-79.5423&FcstType=digitalDWML`;
 
         return this._httpClient

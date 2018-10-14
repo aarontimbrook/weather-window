@@ -1,42 +1,20 @@
-import {
-    Component,
-    OnInit
-} from '@angular/core';
-
-import {
-    ForecastService
-} from './forecast.service';
-
 import * as _ from 'lodash';
+import { Observable, of } from 'rxjs';
 
-import {
-    Head,
-    Location,
-    Product,
-    Source,
-    MoreWeatherInformation
-} from '../../entities/meta-data';
+import { Component, OnInit } from '@angular/core';
 
-import {
-    Data
-} from '../../entities/data';
-
-import {
-    Parameters
-} from '../../entities/parameters';
-
-import {
-    TimeLayoutElement
-} from '../../entities/time-layout-element';
-
-import {
-    DataType
-} from '../../entities/enums';
-
-import {
-    Observable,
-    of
-} from 'rxjs';
+import { Data } from '../../entities/data';
+import { DataType } from '../../entities/enums';
+import { Head } from '../../entities/head';
+import { Location } from '../../entities/location';
+import { MoreWeatherInformation } from '../../entities/more-weather-information';
+import { Product } from '../../entities/product';
+import { Source } from '../../entities/source';
+import { Parameters } from '../../entities/parameters';
+import { TimeLayoutElement } from '../../entities/time-layout-element';
+import { ForecastService } from './forecast.service';
+import { MapUtils } from '../../shared/utility';
+import { CreationDate } from 'src/app/entities/creation-date';
 
 @Component({
     selector: 'component-forecast',
@@ -44,40 +22,51 @@ import {
     styleUrls: ['./forecast.component.css']
 })
 export class ForecastComponent implements OnInit {
-
-    location: Location;
+    locationCity: string;
+    productCreationDate: string;
+    productSrsName: string;
+    sourceMoreInfo: string;
 
     constructor(private _serviceForecast: ForecastService) {}
 
     ngOnInit(): void {
-        this._serviceForecast
-            .getWeatherData()
-            .subscribe(response => {
-                // console.log('response=', response);
+        this._serviceForecast.getWeatherData()
+            .subscribe(
+            response => {
                 const xmlString = response.toString();
-                // console.log(xmlString);
                 // use the DOMParser browser API to convert text to a Document
-                const xml = new DOMParser()
-                    .parseFromString(xmlString, 'text/xml');
+                const xml = new DOMParser().parseFromString(xmlString, 'text/xml');
                 // and then use #_xmlParse to convert it to a JS object
                 const forecastObj = this._xmlParse(xml.children[0]);
-                const head: Head = forecastObj.head;
-                const data: Data = forecastObj.data;
-                const product: Product = head.product;
-                const source: Source = head.source;
-                this.location = data.location;
-                // tslint:disable-next-line:no-debugger
-                debugger;
-                const moreWeatherInfos: MoreWeatherInformation[] = data.moreWeatherInformation;
-                const params: Parameters[] = data.parameters;
-                const timeLayoutElements: TimeLayoutElement[] = data.timelayout;
-                const dataType: DataType = data.type;
-                const isTypeSpecified: boolean = data.typeSpecified;
-                // tslint:disable-next-line:no-debugger
-                debugger;
-            }, err => {
+                const head: Head = MapUtils.deserialize(Head, forecastObj.head as Head);
+                const data: Data = MapUtils.deserialize(Data, forecastObj.data as Data);
+
+                if (head) {
+                    if (head.product) {
+                        if (head.product.creationDate) {
+                            this.productCreationDate = head.product.creationDate.text;
+                        }
+
+                        this.productSrsName = head.product.srsName;
+                    }
+
+                    if (head.source) {
+                        this.sourceMoreInfo = head.source.moreInformation;
+                    }
+                }
+
+                if (data) {
+                    if (data.location) {
+                        if (data.location.city) {
+                            this.locationCity = data.location.city.text;
+                        }
+                    }
+                }
+            },
+            err => {
                 console.error('ERROR::getWeatherData() ', err);
-            });
+            }
+        );
     }
     //
     // https://andrew.stwrt.ca/posts/js-xml-parsing/
@@ -124,7 +113,8 @@ export class ForecastComponent implements OnInit {
                     const attr = xml.attributes.item(id);
                     obj[attr.name] = attr.value;
                     return obj;
-                }, {}
+                },
+                {}
             );
         }
         // recursively call #_xmlParse over children, adding results to data
@@ -160,8 +150,8 @@ export class ForecastComponent implements OnInit {
         return this._flatten(data);
     }
 
-    private _handleError <T> (operation = 'operation', result ?: T) {
-        return (error: any): Observable <T> => {
+    private _handleError<T>(operation = 'operation', result?: T) {
+        return (error: any): Observable<T> => {
             // TODO: send the error to remote logging infrastructure
             console.error(error); // log to console instead
 

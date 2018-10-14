@@ -1,7 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { ForecastService } from './forecast.service';
 
-
 describe('ForecastService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({

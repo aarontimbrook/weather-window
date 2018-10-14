@@ -5,6 +5,6 @@ export class Visibility {
     Value: string;
 
     constructor() {
-        this.units = VisibilityUnits.statutemiles;
+        this.units = VisibilityUnits.statuteMiles;
     }
 }

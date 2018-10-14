@@ -1,4 +1,4 @@
-export class StartValidTime {
+export class EndValidTime {
     // periodname: string;
     values: string[];
 

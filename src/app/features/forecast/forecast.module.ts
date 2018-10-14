@@ -1,18 +1,16 @@
-import {
-    NgModule
-} from '@angular/core';
-import {
-    ForecastComponent
-} from '../forecast/forecast.component';
-import {
-    ForecastService
-} from '../forecast/forecast.service';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+
+import { ForecastComponent } from '../forecast/forecast.component';
+import { ForecastService } from '../forecast/forecast.service';
 
 @NgModule({
     declarations: [
         ForecastComponent
     ],
-    imports: [],
+    imports: [
+        CommonModule
+    ],
     exports: [
         ForecastComponent
     ],

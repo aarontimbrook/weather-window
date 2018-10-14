@@ -15,25 +15,56 @@ import { Pressure } from './presssure';
 import { ProbabilisticCondition } from './probabilistic-condition';
 import { ClimateAnomaly } from './anomaly';
 import { WaterState } from './water-state';
+import { JsonProperty } from '../shared/utility';
+import { BaseEntity } from './base-entity';
+import { HourlyQpf } from './hourly-qpf';
 
-export class Parameters {
-    categories: Categories[];
-    temperature: Temperature[];
-    precipitation: Precipitation[];
-    probabilityofprecipitation: ProbabilityOfPrecipitation[];
-    fireweather: FireWeather[];
-    convectivehazard: ConvectiveHazard[];
-    climateanomaly: ClimateAnomaly[];
+export class Parameters extends BaseEntity {
+    @JsonProperty('applicable-location')
+    applicableLocation: string;
+
+    @JsonProperty('cloud-amount')
+    cloudAmount: CloudAmount;
+
+    direction: Direction;
+
+    @JsonProperty('hourly-qpf')
+    hourlyQpf: HourlyQpf;
+
+    humidity: Humidity;
+
+    @JsonProperty('probability-of-precipitation')
+    probabilityOfPrecipitation: ProbabilityOfPrecipitation;
+
+    temperature: Temperature;
+
+    weather: Weather;
+
     windspeed: WindSpeed[];
-    direction: Direction[];
-    cloudamount: CloudAmount[];
-    humidity: Humidity[];
-    weather: Weather[];
-    conditionsicon: ConditionsIcon[];
-    hazards: Hazards[];
-    wordedForecast: WordedForecast;
-    pressure: Pressure[];
-    probabilisticCondition: ProbabilisticCondition[];
-    waterstate: WaterState[];
-    applicablelocation: string;
+
+    // categories: Categories[];
+    // precipitation: Precipitation[];
+    // fireweather: FireWeather[];
+    // convectivehazard: ConvectiveHazard[];
+    // climateanomaly: ClimateAnomaly[];
+    // conditionsicon: ConditionsIcon[];
+    // hazards: Hazards[];
+    // wordedForecast: WordedForecast;
+    // pressure: Pressure[];
+    // probabilisticCondition: ProbabilisticCondition[];
+    // waterstate: WaterState[];
+    // applicablelocation: string;
+
+    constructor() {
+        super();
+        this.applicableLocation = '';
+        this.cloudAmount = null;
+        this.direction = null;
+        this.hourlyQpf = null;
+        this.humidity = null;
+        this.probabilityOfPrecipitation = null;
+        this.temperature = null;
+        this.weather = null;
+        this.windspeed = null;
+    }
 }
